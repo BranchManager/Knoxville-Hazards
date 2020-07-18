@@ -30,7 +30,7 @@
 
     /* Style tab links */
     .tablink {
-      background-color: #9f9f9f;
+      background-color: #ff8800;
       color: black;
       float: left;
       border: none;
@@ -57,37 +57,14 @@
 
     .map {
       float: left;
-      width: 34.8%;
-      height: 100%;
+      width: 100%;
+      height: 600px;
       border-radius: 5px 5px 0px 0px;
       border-width: 1px;
-      border-style: dotted;
-      border-color: #000000;
+      border-style: solid;
+      border-color: #3a3a3a;
     }
   </style>
-
-  <script>
-    function initialize() {
-      var mapCanvas = document.getElementById('map');
-      var myLatLng = { lat: 64.8370761, lng: -147.697845 };
-      var mapOptions = {
-        center: myLatLng,
-        zoom: 16,
-        mapTypeId: google.maps.MapTypeId.ROADMAP
-      }
-      var map = new google.maps.Map(mapCanvas, mapOptions)
-      var marker = new google.maps.Marker({
-        position: myLatLng,
-        map: map,
-        title: "Nelson's Photography"
-      });
-    }
-
-    $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
-      initialize();
-    });
-
-  </script>
 
 
 </head>
@@ -141,35 +118,9 @@
 
   <body>
 
+    <script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
     <script>
-      function openPage(pageName, elmnt) {
-        // Hide all elements with class="tabcontent" by default */
-        var i, tabcontent, tablinks;
-
-        tabcontent = document.getElementsByClassName("tabcontent");
-        for (i = 0; i < tabcontent.length; i++) {
-          tabcontent[i].style.display = "none";
-        }
-
-        // Remove the background color of all tablinks/buttons
-        tablinks = document.getElementsByClassName("tablink");
-        for (i = 0; i < tablinks.length; i++) {
-          tablinks[i].style.backgroundColor = "";
-        }
-
-        // Show the specific tab content
-        document.getElementById(pageName).style.display = "block";
-
-        // Add the specific color to the button used to open the tab content
-        elmnt.style.backgroundColor = "#ffffff";
-        setTimeout(function () {
-          mapAsia.invalidateSize();
-          mapAfrica.invalidateSize();
-        }, 0);
-      }
-      // Get the element with id="defaultOpen" and click on it
-      document.getElementById("defaultOpen").click();
-
+      // Creating map options
       var mapOptions = {
         center: [35.98, -83.94],
         zoom: 10,
@@ -177,7 +128,7 @@
       }
 
       // Creating a map object
-      var map = new L.map('Hazard', mapOptions);
+      var map = new L.map('m', mapOptions);
 
       // Creating a Layer object
       var layer = new L.TileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png');
@@ -195,39 +146,8 @@
     </script>
 
 
-    <!-- <script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
-    <script>
-      // Creating map options
-      var mapOptions = {
-        center: [35.98, -83.94],
-        zoom: 10,
-        id: 'main-map'
-      }
-
-      // Creating a map object
-      var map = new L.map('Hazard', mapOptions);
-
-      // Creating a Layer object
-      var layer = new L.TileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png');
-
-
-      // Adding layer to the map
-      map.addLayer(layer);
-      var circle = L.circle([35.98, -83.94], 1000, {
-        fill: true
-      }).addTo(map);
-
-
-      var marker = L.marker([35.98, -83.94]).addTo(map);
-
-    </script> -->
-
-
-
-
     <button class="tablink" onclick="openPage('Europe', this)" id="defaultOpen">Europe</button>
     <button class="tablink" onclick="openPage('Asia', this)">Asia</button>
-    <button class="tablink" onclick="openPage('Africa', this)">Africa</button>
     <button class="tablink" onclick="openPage('Hazard', this, 'orange')">Hazard</button>
 
 
@@ -238,14 +158,10 @@
     <div id="Asia" class="tabcontent">
       <div id="mapAsia" class="map"></div>
     </div>
-
-    <div id="Africa" class="tabcontent">
-      <div id="mapAfrica" class="map"></div>
-    </div>
     <div id="Hazard" class="tabcontent">
       <div id="mapHazard" class="map"></div>
     </div>
-
+    
 
     <script>
       function openPage(pageName, elmnt) {
@@ -271,6 +187,7 @@
         setTimeout(function () {
           mapAsia.invalidateSize();
           mapAfrica.invalidateSize();
+          mapHazard.invalidateSize();
         }, 0);
       }
 
@@ -295,8 +212,6 @@
       });
       googleStreetsEurope.addTo(mapEurope);
 
-
-
       var centerLatAsia = 49.0;
       var centerLngAsia = 88.0;
       var initialZoomAsia = 2;
@@ -319,7 +234,7 @@
         zoom: 4
       }
 
-      var mapHazard = L.map('mapHazard', mapOptions)
+      var mapHazard = new L.map('mapHazard', mapOptions)
 
       // Creating a map object
       // Creating a Layer object
@@ -329,7 +244,7 @@
       })
 
       // Adding layer to the map
-      mapHazard.addLayer(hzd);
+      hzd.addTo(mapHazard);
 
       var centerLatAfrica = 0.0;
       var centerLngAfrica = 18.0;

@@ -109,6 +109,7 @@
 
       <p id="demo"></p>
           
+        <input id="dbsubmit", type="button", value="DB Submit", oneclick="writeUserData("asdfhuUIHDUHSDFhsfd", "Cristian", "Romo", 1234567, "no@email.com", "shits_broke", "hazard");", />
 
           <script>
             document.getElementById("submitButton").addEventListener("click", function()
@@ -154,13 +155,14 @@
     </script>
 
     <script>
-        function writeUserData(firstName, lastName, phoneNumber, email, notes)
+        function writeUserData(userId, firstName, lastName, phoneNumber, email, notes, reportType)
         {
-            firebase.database().ref('reports/'+phoneNumber).set({
+            firebase.database().ref('reports/'+userId).set({
             firstName: firstName,
             lastName: lastName,
             phoneNumber: phoneNmber,
             email: email,
+            reportType: reportType,
             report: notes,
             });
         }

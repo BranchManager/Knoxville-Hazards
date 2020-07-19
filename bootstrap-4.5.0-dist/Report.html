@@ -46,8 +46,8 @@
             
           </ul>
           <form class="form-inline my-2 my-lg-0">
-            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" style="color: black;">
+            <button class="btn btn-outline-success" type="submit" style="color: black;">Search</button>
           </form>
         </div>
       </nav>
@@ -183,6 +183,8 @@
             var errorCode = error.code;
             var errorMessage = error.message;
             // ...
+            console.log(errorCode)
+            console.log(errorMessage)
           });
 
           document.getElementById("submitButton").addEventListener("click", function formSubmit()

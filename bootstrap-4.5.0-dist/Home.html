@@ -1,0 +1,231 @@
+<html lang="en">
+<!-- links to leaflet -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css"
+  integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
+  crossorigin="" />
+<script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"
+  integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew=="
+  crossorigin=""></script>
+
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+  integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+<!doctype html>
+
+<head>
+  <!-- Required meta tags -->
+  <style>
+    body,
+    html {
+      height: fit-content;
+      margin: 0;
+      font-family: sans-serif;
+    }
+
+    /* Style tab links */
+    .tablink {
+      margin-top: 24px;
+      background-color: orange;
+      color: black;
+      float: left;
+      border: clear;
+      outline: none;
+      cursor: pointer;
+      padding: 5px;
+      font-size: 16px;
+      width: 33.33%;
+    }
+
+    .tablink:hover {
+      background-color: rgb(144, 144, 144);
+    }
+
+    /* Style the tab content (and add height:100% for full page content) */
+    .tabcontent {
+      color: black;
+      background-color: white;
+      display: none;
+      padding: 15px 5px;
+      height: 95%;
+    }
+
+
+    .map {
+      float: left;
+      width: 100%;
+      height: 600px;
+      border-radius: 5px 5px 0px 0px;
+      border-width: 1px;
+      border-style: solid;
+      border-color: grey;
+      margin-top: 16px;
+    }
+  </style>
+
+</head>
+
+<body>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" style="color:black" href="#">KNX<span a class="navbar-brand"
+        style="color:orange">NBHD</span></a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item active">
+          <a class="nav-link" href="Home.html">Home <span class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="Report.html">Report</a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link" href="#">Contacts</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="info.html">Info</a>
+        </li>
+        
+      </ul>
+      <form class="form-inline my-2 my-lg-0">
+        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" style="color: black;">
+        <button class="btn btn-outline-success" type="submit" style="color: black;">Search</button>
+      </form>
+    </div>
+  </nav>
+
+  <button class="tablink" onclick="openPage('Hazard', this)" id="defaultOpen">Hazard</button>
+  <button class="tablink" onclick="openPage('Community', this)">Community</button>
+  <button class="tablink" onclick="openPage('Covid', this)">Covid</button>
+
+  <div id="Hazard" class="tabcontent">
+    <div id="mapHazard" class="map"></div>
+  </div>
+  <div id="Community" class="tabcontent">
+    <div id="mapCommunity" class="map"></div>
+  </div>
+  <div id="Covid" class="tabcontent">
+    <iframe style="width: 100%; height: 600px; overflow: hidden;"
+      src="https://www.arcgis.com/apps/opsdashboard/index.html#/409af567637846e3b5d4182fcd779bea" width="100"
+      height="100" scrolling="no">Iframes not supported</iframe>
+  </div>
+
+  <script>
+    function openPage(pageName, elmnt) {
+      // Hide all elements with class="tabcontent" by default */
+      var i, tabcontent, tablinks;
+
+      tabcontent = document.getElementsByClassName("tabcontent");
+      for (i = 0; i < tabcontent.length; i++) {
+        tabcontent[i].style.display = "none";
+      }
+
+      // Remove the background color of all tablinks/buttons
+      tablinks = document.getElementsByClassName("tablink");
+      for (i = 0; i < tablinks.length; i++) {
+        tablinks[i].style.backgroundColor = "";
+      }
+
+      // Show the specific tab content
+      document.getElementById(pageName).style.display = "block";
+
+      // Add the specific color to the button used to open the tab content
+      elmnt.style.backgroundColor = "#ffffff";
+      setTimeout(function () {
+        mapHazard.invalidateSize();
+        mapComm.invalidateSize();
+      }, 0);
+    }
+
+    // Get the element with id="defaultOpen" and click on it
+    document.getElementById("defaultOpen").click();
+
+    //Create maps
+    var long = 35.98;
+    var lad = -83.94;
+
+    var mapHazard = L.map('mapHazard', {
+      center: [long, lad],
+      zoom: 10
+    });
+
+    //set one map tiles source
+    googHazard = L.tileLayer('http://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}', {
+      attribution: '<a href="https://www.google.com/maps">Google Maps</a>',
+      maxZoom: 20,
+      subdomains: ['mt0', 'mt1', 'mt2', 'mt3']
+    });
+    googHazard.addTo(mapHazard);
+
+    var mapComm = L.map('mapCommunity', {
+      center: [long, lad],
+      zoom: 10
+    });
+
+    //set one map tiles source
+    googComm = L.tileLayer('http://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}', {
+      attribution: '<a href="https://www.google.com/maps">Google Maps</a>',
+      maxZoom: 20,
+      subdomains: ['mt0', 'mt1', 'mt2', 'mt3']
+    });
+    googComm.addTo(mapComm);
+
+
+
+  </script>
+
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Report</th>
+        <th scope="col">Date</th>
+        <th scope="col">Reported by</th>
+        <th scope="col">Notes</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <th scope="row">1</th>
+        <td>Mark</td>
+        <td>Otto</td>
+        <td>@mdo</td>
+      </tr>
+  </table>
+
+  <!-- Optional JavaScript -->
+  <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+    integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+    integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+    crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
+    integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
+    crossorigin="anonymous"></script>
+</body>
+<!-- The core Firebase JS SDK is always required and must be listed first -->
+<script src="https://www.gstatic.com/firebasejs/7.16.1/firebase-app.js"></script>
+
+<!-- TODO: Add SDKs for Firebase products that you want to use
+     https://firebase.google.com/docs/web/setup#available-libraries -->
+
+<script>
+  // Your web app's Firebase configuration
+  var firebaseConfig = {
+    apiKey: "AIzaSyApVNys6dQt_8qMzpQf56jTA5D9S4ULwEU",
+    authDomain: "knx-hx.firebaseapp.com",
+    databaseURL: "https://knx-hx.firebaseio.com",
+    projectId: "knx-hx",
+    storageBucket: "knx-hx.appspot.com",
+    messagingSenderId: "776291058503",
+    appId: "1:776291058503:web:1d1ca596561e7506378262"
+  };
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
+</script>
+
+</html>

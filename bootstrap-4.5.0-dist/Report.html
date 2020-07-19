@@ -178,14 +178,7 @@
           //firebase.database().ref();
           //document.getElementById('email').value="example"
           //document.forms[0].submit()
-          firebase.auth().signInAnonymously().catch(function(error) {
-           // Handle Errors here.
-            var errorCode = error.code;
-            var errorMessage = error.message;
-            // ...
-            console.log(errorCode)
-            console.log(errorMessage)
-          });
+          
 
           document.getElementById("submitButton").addEventListener("click", function formSubmit()
           {
@@ -196,8 +189,16 @@
               
               var d = new Date();
               var n = d.getDate();
+            firebase.auth().signInAnonymously().catch(function(error) {
+            // Handle Errors here.
+              var errorCode = error.code;
+              var errorMessage = error.message;
+              // ...
+              console.log(errorCode)
+              console.log(errorMessage)
+            });
 
-              writeUserData(database, );
+              writeUserData( );
 
               alert(n);
           });

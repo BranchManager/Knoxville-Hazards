@@ -87,10 +87,11 @@
         <li class="nav-item">
           <a class="nav-link" href="info.html">Info</a>
         </li>
-        
+
       </ul>
       <form class="form-inline my-2 my-lg-0">
-        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" style="color: black;">
+        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search"
+          style="color: black;">
         <button class="btn btn-outline-success" type="submit" style="color: black;">Search</button>
       </form>
     </div>
@@ -144,6 +145,13 @@
       }, 0);
     }
 
+    function placeMarker(location, text) {
+      var marker = L.marker(location, { title: text })
+        .bindPopup()
+        .openPopup();
+      return marker;
+    }
+
     // Get the element with id="defaultOpen" and click on it
     document.getElementById("defaultOpen").click();
 
@@ -162,6 +170,14 @@
       maxZoom: 20,
       subdomains: ['mt0', 'mt1', 'mt2', 'mt3']
     });
+
+    var m1 = new L.marker([long, lad]).addTo(mapHazard)
+      .bindPopup("Type: Pothole <br> By: Mark Hamill <br> Section: Hazard <br> Note: The pothole gave me a flat in my X-Wing");
+    var m2 = new L.marker([35.95, -83.87]).addTo(mapHazard)
+      .bindPopup("Type: Blizzard <br> By: Han Solo <br> Section: Hazard <br> Note: Got stuck in a blizzard; the tauntaun might not make it back");
+    var m3 = new L.marker([35.9, lad]).addTo(mapHazard)
+      .bindPopup("Type: Vicious beast<br> By: Crazy Warlock <br> Section: Hazard <br> Note:Its got huge fangs and will eat you alive	England");
+
     googHazard.addTo(mapHazard);
 
     var mapComm = L.map('mapCommunity', {
@@ -175,6 +191,15 @@
       maxZoom: 20,
       subdomains: ['mt0', 'mt1', 'mt2', 'mt3']
     });
+
+    var m4 = new L.marker([35.9, -83.90]).addTo(mapComm)
+      .bindPopup("Type: Cookies! <br> By: Suzanne Collins<br> Section: Community<br> Note: Come get your official District 12 homemade cookies!");
+    var m5 = new L.marker([35.90, -83.79]).addTo(mapComm)
+      .bindPopup("Type: A Gift <br> By: Trojan <br> Section: Community <br> Note: It's a horse!");
+    var m6 = new L.marker([35.94, -84.0]).addTo(mapComm)
+      .bindPopup("Type: Party <br> By: Alice <br> Section: Community <br> Note:Tea party");
+
+
     googComm.addTo(mapComm);
 
     var mapCrime = L.map('mapCrime', {
@@ -182,14 +207,21 @@
       zoom: 10
     });
 
-    //set one map tiles source
     googCrime = L.tileLayer('http://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}', {
       attribution: '<a href="https://www.google.com/maps">Google Maps</a>',
       maxZoom: 20,
       subdomains: ['mt0', 'mt1', 'mt2', 'mt3']
     });
-    googCrime.addTo(mapCrime);
 
+    var m7 = new L.marker([35.962011, -83.917673]).addTo(mapCrime)
+      .bindPopup("Type: Assault<br> By: Julius Caesar<br> Section: Crime<br> Note: Et tu, Brute?");
+    var m8 = new L.marker([35.962,-83.918]).addTo(mapCrime)
+      .bindPopup("Type: Assault<br> By: Steven <br> Section: Crime<br> Note: lmao i just saw julius get clapped");
+    var m9 = new L.marker([35.999907, -83.888604]).addTo(mapCrime)
+      .bindPopup("Type: Prank<br> By: Greek <br> Section: Crime <br> Note:Jk it's not just a prank bro");
+
+
+    googCrime.addTo(mapCrime);
 
 
   </script>
@@ -206,6 +238,7 @@
         <th scope="col">Reported by</th>
         <th scope="col">Section</th>
         <th scope="col">Notes</th>
+        <th scope="col">Location</th>
       </tr>
     </thead>
     <tbody>
@@ -216,32 +249,82 @@
         <td>Mark Hamill</td>
         <td>Hazard</td>
         <td>The pothole gave me a flat in my X-Wing</td>
+        <td>The Dagobah system</td>
       </tr>
       <tr>
-          <th scope="row">2</th>
-          <td>Cookies!</td> 
-          <td>2020-7-18</td>
-          <td>Suzanne Collins</td>
-          <td></td>
-          <td>Come get your official District 12 homemade cookies!</td>
+        <th scope="row">2</th>
+        <td>Cookies!</td>
+        <td>2020-7-18</td>
+        <td>Suzanne Collins</td>
+        <td>Community</td>
+        <td>Come get your official District 12 homemade cookies!</td>
+        <td>Mines</td>
       </tr>
       <tr>
         <th scope="row">3</th>
-        <td>Stabbing</td>
+        <td>Assault</td>
         <td>BC 44-3-15</td>
         <td>Julius Caesar</td>
-        <td>Community</td>
+        <td>Crime</td>
         <td>Et tu, brute?</td>
+        <td>Rome</td>
       </tr>
       <tr>
-        <th scope="row">3</th>
-        <td>Blizard</td>
+        <th scope="row">4</th>
+        <td>Blizzard</td>
         <td>long long ago</td>
         <td>Han Solo</td>
         <td>Hazard</td>
-        <td>Got stuck in a blizard the tauntaun might not make it back</td>
+        <td>Got stuck in a blizzard; the tauntaun might not make it back</td>
+        <td>far far away</td>
       </tr>
-      
+
+      <tr>
+        <th scope="row">5</th>
+        <td>Assault</td>
+        <td>BC 44-3-15</td>
+        <td>Steven</td>
+        <td>Crime</td>
+        <td>lmao i just saw julius get clapped</td>
+        <td>Rome</td>
+      </tr>
+      <tr>
+        <th scope="row">6</th>
+        <td>A Gift</td>
+        <td>BC 1188</td>
+        <td>Trojan</td>
+        <td>Community</td>
+        <td>It's a horse!</td>
+        <td>Troy</td>
+      </tr>
+      <tr>
+        <th scope="row">7</th>
+        <td>Prank</td>
+        <td>BC 1188</td>
+        <td>Greek</td>
+        <td>Crime</td>
+        <td>Jk it's not just a prank bro</td>
+        <td>Troy</td>
+      </tr>
+      <tr>
+        <th scope="row">8</th>
+        <td>Vicious beast</td>
+        <td>Dark ages</td>
+        <td>Crazy Warlock</td>
+        <td>Hazard</td>
+        <td>Its got huge fangs and will eat you alive</td>
+        <td>England</td>
+      </tr>
+      <tr>
+        <th scope="row">9</th>
+        <td>Party</td>
+        <td>Unknown</td>
+        <td>Alice</td>
+        <td>Community</td>
+        <td>Tea party</td>
+        <td>Wonderland</td>
+      </tr>
+
 
 
   </table>

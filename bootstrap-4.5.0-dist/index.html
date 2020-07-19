@@ -23,6 +23,7 @@
 
     /* Style tab links */
     .tablink {
+      margin-top: 24px;
       background-color: orange;
       color: black;
       float: left;
@@ -47,9 +48,6 @@
       height: 95%;
     }
 
-    .tab button.active {
-      background-color: whitesmoke;
-    }
 
     .map {
       float: left;
@@ -59,6 +57,7 @@
       border-width: 1px;
       border-style: solid;
       border-color: grey;
+      margin-top: 16px;
     }
   </style>
 
@@ -108,28 +107,20 @@
     </div>
   </nav>
 
-
-  <!-- 35.98, -83.94 -->
-
-  <h1>Hello, Knoxvegas!</h1>
-
   <button class="tablink" onclick="openPage('Hazard', this)" id="defaultOpen">Hazard</button>
-  <button class="tablink" onclick="openPage('Covid', this)">Covid</button>
   <button class="tablink" onclick="openPage('Community', this)">Community</button>
+  <button class="tablink" onclick="openPage('Covid', this)">Covid</button>
 
   <div id="Hazard" class="tabcontent">
     <div id="mapHazard" class="map"></div>
   </div>
-
-  <div id="Covid" class="tabcontent">
-    <iframe style="width: 100%; height: 600px; overflow: hidden;"
-    src="https://www.arcgis.com/apps/opsdashboard/index.html#/409af567637846e3b5d4182fcd779bea" width="100" height="100"
-    scrolling="no">Iframes not supported</iframe>
-    
-  </div>
-
   <div id="Community" class="tabcontent">
     <div id="mapCommunity" class="map"></div>
+  </div>
+  <div id="Covid" class="tabcontent">
+    <iframe style="width: 100%; height: 600px; overflow: hidden;"
+      src="https://www.arcgis.com/apps/opsdashboard/index.html#/409af567637846e3b5d4182fcd779bea" width="100"
+      height="100" scrolling="no">Iframes not supported</iframe>
   </div>
 
   <script>
@@ -154,8 +145,8 @@
       // Add the specific color to the button used to open the tab content
       elmnt.style.backgroundColor = "#ffffff";
       setTimeout(function () {
-        mapAsia.invalidateSize();
-        mapAfrica.invalidateSize();
+        mapHazard.invalidateSize();
+        mapComm.invalidateSize();
       }, 0);
     }
 
@@ -166,7 +157,7 @@
     var long = 35.98;
     var lad = -83.94;
 
-    var Hazard = L.map('mapHazard', {
+    var mapHazard = L.map('mapHazard', {
       center: [long, lad],
       zoom: 10
     });
@@ -179,42 +170,20 @@
     });
     googHazard.addTo(mapHazard);
 
-    var mapCovid = L.map('mapCovid', {
-      center: [centerLatAsia, centerLngAsia],
-      zoom: initialZoomAsia
+    var mapComm = L.map('mapCommunity', {
+      center: [long, lad],
+      zoom: 10
     });
 
     //set one map tiles source
-    googleStreetsAsia = L.tileLayer('http://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}', {
+    googComm = L.tileLayer('http://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}', {
       attribution: '<a href="https://www.google.com/maps">Google Maps</a>',
       maxZoom: 20,
       subdomains: ['mt0', 'mt1', 'mt2', 'mt3']
     });
-    googleStreetsAsia.addTo(mapAsia);
+    googComm.addTo(mapComm);
 
 
-
-    var centerLatAfrica = 0.0;
-    var centerLngAfrica = 18.0;
-    var initialZoomAfrica = 4;
-
-    var mapAfrica = L.map('mapAfrica', {
-      center: [centerLatAfrica, centerLngAfrica],
-      zoom: initialZoomAfrica
-    });
-
-
-    //set one map tiles source
-    googleStreetsAfrica = L.tileLayer('http://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}', {
-      attribution: '<a href="https://www.google.com/maps">Google Maps</a>',
-      maxZoom: 20,
-      subdomains: ['mt0', 'mt1', 'mt2', 'mt3']
-    });
-    googleStreetsAfrica.addTo(mapAfrica);
-
-    L.marker([51.5, -0.09]).addTo(mapAfrica)
-      .bindPopup('A pretty CSS3 popup.<br> Easily customizable.')
-      .openPopup();
 
   </script>
 

@@ -18,12 +18,7 @@
     
 
     <body>
-      <!-- Initialize Firebase -->
-     <!--script src="/__/firebase/init.js"></script-->
-     <script src="/__/firebase/7.8.0/firebase-app.js"></script>
-     <script src="/__/firebase/7.8.0/firebase-auth.js"></script>
-     <script src="/__/firebase/7.13.2/firebase-database.js"></script>
-     <script src="/__/firebase/init.js"></script>
+      <!-- Initialize Firebase??? maybe -->
 
       <nav class="navbar navbar-expand-lg navbar-light bg-light">      
         <a class="navbar-brand" style="color:black" href="#">KNX<span a class="navbar-brand" style="color:orange">NBHD</span></a>        
@@ -185,6 +180,9 @@
 
 
           var database = firebase.database();
+
+          console.log("we out here");
+
           //firebase.database().ref();
           //document.getElementById('email').value="example"
           //document.forms[0].submit()
@@ -214,7 +212,9 @@
             console.log("we out here");
               var db = database.ref('reports/'+"SH9d1KLVOpJ0t2P9yIqW");
 
-              db.update({
+              db.auth();
+
+              db.set({
               firstName: "Chips",
               lastName: "ndip",
               phoneNumber: 8675309,
@@ -226,6 +226,7 @@
                 covid: "None",
               }
             });
+
             document.getElementById("demo").innerHTML = "we out here";
             console.log("test")
 

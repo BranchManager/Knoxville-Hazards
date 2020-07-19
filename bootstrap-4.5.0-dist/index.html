@@ -78,9 +78,10 @@
     var mapboxUrl = 'http://{s}.tile.openstreetmaps.org/{z}/{x}/{y}.png'
     var mapboxAttribution = '&copy; <a href="http://openstreetmaps.org/copyright">OpenStreetMap</a> contributors'
 
-    var covid = L.tileLayer(mapboxUrl, { attribution: mapboxAttribution });
+    //var covid = L.tileLayer(mapboxUrl, { attribution: mapboxAttribution });
     var community = L.tileLayer(mapboxUrl, { attribution: mapboxAttribution });
     var hazard = L.tileLayer(mapboxUrl, { attribution: mapboxAttribution });
+    var covid = L.tileLayer("https://www.arcgis.com/apps/opsdashboard/index.html#/bda7594740fd40299423467b48e9ecf6", { attribution: mapboxAttribution })
 
     var baseMaps = {
       "Hazards": hazard,
@@ -109,11 +110,11 @@
 
     setTimeout(function () { map.invalidateSize() }, 800);
 
+
   </script>
+  
 
-
-
-<table class="table table-striped">
+  <table class="table table-striped">
     <thead>
       <tr>
         <th scope="col">#</th>

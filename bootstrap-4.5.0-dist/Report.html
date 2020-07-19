@@ -210,10 +210,10 @@
             document.getElementById("demo").innerHTML = "we not out here\n";
 
             console.log("we out here");
-              var db = database.ref('reports/'+"SH9d1KLVOpJ0t2P9yIqW");
+              
 
               database.auth();
-
+              var db = database.ref('reports/'+"SH9d1KLVOpJ0t2P9yIqW");
               db.set({
               firstName: "Chips",
               lastName: "ndip",

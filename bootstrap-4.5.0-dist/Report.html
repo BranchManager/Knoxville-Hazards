@@ -129,8 +129,8 @@
           <script>
             document.getElementById("submitButton").addEventListener("click", function()
             {
-                console.log("we not out here");
-                writeUserData("SH9d1KLVOpJ0t2P9yIqW", "Cristian", "Romo", 6150000000, "no@email.com",
+                console.log("Data submitted!");
+                writeUserData("SH9d1KLVOpJ0t2P9yIqW", "First", "Last", 6150000000, "no@email.com",
                 "broken tree", "hazard", "None", "Tree", "None");
             });
           </script>
@@ -208,7 +208,7 @@
       <script>
           function writeUserData(database, userID, firstName, lastName, phoneNumber, email, notes, reportType, crimeType, hazardType, covid)
           {
-            document.getElementById("demo").innerHTML = "we not out here\n";
+            document.getElementById("demo").innerHTML =  "Report submitted!\n";
 
             console.log("we out here");
               
@@ -227,8 +227,6 @@
                 covid: "None",
               }
             });
-
-            document.getElementById("demo").innerHTML = "we out here";
             console.log("test")
 
           }

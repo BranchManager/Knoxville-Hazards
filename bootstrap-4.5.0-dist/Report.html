@@ -20,7 +20,10 @@
     <body>
       <!-- Initialize Firebase -->
      <!--script src="/__/firebase/init.js"></script-->
-    
+     <script src="/__/firebase/7.8.0/firebase-app.js"></script>
+     <script src="/__/firebase/7.8.0/firebase-auth.js"></script>
+     <script src="/__/firebase/7.13.2/firebase-database.js"></script>
+     <script src="/__/firebase/init.js"></script>
 
       <nav class="navbar navbar-expand-lg navbar-light bg-light">      
         <a class="navbar-brand" style="color:black" href="#">KNX<span a class="navbar-brand" style="color:orange">NBHD</span></a>        
@@ -89,17 +92,41 @@
                         </div>
 
                       </div>
+                      <hr>
                       <div class="form-group row">
                         <div class="col-12">
-                          <label for="Notes" class="col-md- col-form-label">Other Information</label>
-                          <textarea class="form-control" rows="3"></textarea>
+                          <label for="email"  class="col-md- col-form-label">Address</label>
+                            <input type="text" class="form-control" id="Address" name="Address" placeholder="Address">
+                        </div>
+                        </div>
+                        <div class="form-group row">
+                          <div class="col-4">
+                            <label for="state" class="colmd- colform-label">State</label>
+                            <input type="text" class="form-control" id="Address" name="State" placeholder="State">
+                          </div>
+                          <div class="col-4">
+                            <label for="state" class="colmd- colform-label">City</label>
+                            <input type="text" class="form-control" id="Address" name="City" placeholder="City">
+                          </div>
+                          <div class="col-4">
+                            <label for="state" class="colmd- colform-label">Zip</label>
+                            <input type="text" class="form-control" id="Address" name="City" placeholder="City">
+                          </div>
+                        </div>
+                        <hr>
+                        <div class="form-group row">
+                          <div class="col-12">
+                            <label for="Notes" class="col-md- col-form-label">Other Information</label>
+                            <textarea class="form-control" rows="3"></textarea>
+                          </div>
+                        </div>
+                        <div class="form-group row">
+                          <div class="col-12">
+                            <button class="btn btn-secondary" id="submitButton" onclick="formSubmit">Submit</button>
+                          </div>
                         </div>
                       </div>
-                      <div class="form-group row">
-                        <div class="col-12">
-                          <button class="btn btn-secondary" id="submitButton" onclick="formSubmit">Submit</button>
-                        </div>
-                      </div>
+                      
                     </div>
                     
                   </form>
@@ -115,7 +142,9 @@
           <script>
             document.getElementById("submitButton").addEventListener("click", function()
             {
-                document.getElementById("demo").innerHTML = "Hello World";
+                console.log("we not out here");
+                writeUserData("SH9d1KLVOpJ0t2P9yIqW", "Cristian", "Romo", 6150000000, "no@email.com",
+                "broken tree", "hazard", "None", "Tree", "None");
             });
           </script>
 
@@ -155,20 +184,22 @@
           firebase.initializeApp(firebaseConfig);
 
 
-          //var database = firebase.database();
-          firebase.database().ref();
+          var database = firebase.database();
+          //firebase.database().ref();
           //document.getElementById('email').value="example"
           //document.forms[0].submit()
 
           document.getElementById("submitButton").addEventListener("click", function formSubmit()
           {
-              document.getElementById('firstName');
-              document.getElementById('lastName');
-              document.getElementById('phoneNumber');
-              document.getElementById('email');
+              fn = document.getElementById('firstName').value;
+              ln = document.getElementById('lastName').value;
+              Num = document.getElementById('phoneNumber').value;
+              email = document.getElementById('email').value;
               
               var d = new Date();
               var n = d.getDate();
+
+              writeUserData();
 
               alert(n);
           });
@@ -176,18 +207,28 @@
       </script>
 
       <script>
-          function writeUserData(firstName, lastName, phoneNumber, email, notes)
+          function writeUserData(userID, firstName, lastName, phoneNumber, email, notes, reportType, crimeType, hazardType, covid)
           {
-              firebase.database().ref('reports/'+phoneNumber).set({
-              firstName: firstName,
-              lastName: lastName,
-              phoneNumber: phoneNmber,
-              email: email,
-              report: notes,
-              });
-          }
-      </script>
-      <script src="OurCustomJS/ReportForm.js"></script>
+            document.getElementById("demo").innerHTML = "we not out here\n";
 
-    </body>
-    
+            console.log("we out here");
+              var db = database.ref('reports/'+"SH9d1KLVOpJ0t2P9yIqW");
+
+              db.update({
+              firstName: "Chips",
+              lastName: "ndip",
+              phoneNumber: 8675309,
+              email: "no@email.com",
+              reportType:
+              {
+                crime: "None",
+                hazard: "Obstacle",
+                covid: "None",
+              }
+            });
+            document.getElementById("demo").innerHTML = "we out here";
+            console.log("test")
+
+          }
+        </script>   
+      </body>

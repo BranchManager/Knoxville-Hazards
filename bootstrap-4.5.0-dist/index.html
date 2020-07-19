@@ -13,59 +13,13 @@
 
 <head>
 
-
   <!-- Required meta tags -->
   <style>
-    * {
-      box-sizing: border-box
-    }
-
-    /* Set height of body and the document to 100% */
-    body,
-    html {
-      height: 100%;
-      margin: 0;
-      font-family: Arial;
-    }
-
-    /* Style tab links */
-    .tablink {
-      background-color: #ff8800;
-      color: black;
-      float: left;
-      border: none;
-      outline: none;
-      cursor: pointer;
-      padding: 5px;
-      font-size: 16px;
-      width: 33.33%;
-    }
-
-
-    .tablink:hover {
-      background-color: #777;
-    }
-
-    /* Style the tab content (and add height:100% for full page content) */
-    .tabcontent {
-      color: black;
-      background-color: white;
-      display: none;
-      padding: 15px 5px;
-      height: 95%;
-    }
-
-    .map {
-      float: left;
+    #map {
+      height: 580px;
       width: 100%;
-      height: 600px;
-      border-radius: 5px 5px 0px 0px;
-      border-width: 1px;
-      border-style: solid;
-      border-color: #3a3a3a;
     }
   </style>
-
 
 </head>
 
@@ -114,142 +68,52 @@
   </nav>
 
 
+  <!-- 35.98, -83.94 -->
+
   <h1>Hello, Knoxvegas!</h1>
 
-  <body>
+  <div id="map"></div>
+
+  <script>
+    var mapboxUrl = 'http://{s}.tile.openstreetmaps.org/{z}/{x}/{y}.png'
+    var mapboxAttribution = '&copy; <a href="http://openstreetmaps.org/copyright">OpenStreetMap</a> contributors'
+
+    var covid = L.tileLayer(mapboxUrl, { attribution: mapboxAttribution });
+    var community = L.tileLayer(mapboxUrl, { attribution: mapboxAttribution });
+    var hazard = L.tileLayer(mapboxUrl, { attribution: mapboxAttribution });
+
+    var baseMaps = {
+      "Hazards": hazard,
+      "Covid": covid,
+      "Community": community
+    };
+
+    var littleton = L.marker([39.61, -105.02]).bindPopup('This is Littleton, CO.'),
+      denver = L.marker([39.74, -104.99]).bindPopup('This is Denver, CO.'),
+      aurora = L.marker([39.73, -104.8]).bindPopup('This is Aurora, CO.'),
+      golden = L.marker([39.77, -105.23]).bindPopup('This is Golden, CO.');
+    var cities = L.layerGroup([littleton, denver, aurora, golden]);
+
+    var overlayMaps = {
+      "Cities": cities
+    };
+
+    var map = L.map('map', {
+      center: [35.98, -83.94],
+      zoom: 12,
+      layers: [hazard, cities]
+    });
 
 
-    <button class="tablink" onclick="openPage('Europe', this)" id="defaultOpen">Europe</button>
-    <button class="tablink" onclick="openPage('Asia', this)">Asia</button>
-    <button class="tablink" onclick="openPage('Hazard', this, 'orange')">Hazard</button>
+    L.control.layers(baseMaps, overlayMaps).addTo(map);
 
+    setTimeout(function () { map.invalidateSize() }, 800);
 
-    <div id="Europe" class="tabcontent">
-      <div id="mapEurope" class="map"></div>
-    </div>
-
-    <div id="Asia" class="tabcontent">
-      <div id="mapAsia" class="map"></div>
-    </div>
-    <div id="Hazard" class="tabcontent">
-      <div id="mapHazard" class="map"></div>
-    </div>
-    
-
-    <script>
-      function openPage(pageName, elmnt) {
-        // Hide all elements with class="tabcontent" by default */
-        var i, tabcontent, tablinks;
-
-        tabcontent = document.getElementsByClassName("tabcontent");
-        for (i = 0; i < tabcontent.length; i++) {
-          tabcontent[i].style.display = "none";
-        }
-
-        // Remove the background color of all tablinks/buttons
-        tablinks = document.getElementsByClassName("tablink");
-        for (i = 0; i < tablinks.length; i++) {
-          tablinks[i].style.backgroundColor = "";
-        }
-
-        // Show the specific tab content
-        document.getElementById(pageName).style.display = "block";
-
-        // Add the specific color to the button used to open the tab content
-        elmnt.style.backgroundColor = "#ffffff";
-        setTimeout(function () {
-          mapAsia.invalidateSize();
-          mapAfrica.invalidateSize();
-          mapHazard.invalidateSize();
-        }, 0);
-      }
-
-      // Get the element with id="defaultOpen" and click on it
-      document.getElementById("defaultOpen").click();
-
-      //Create maps
-      var centerLatEurope = 55.0;
-      var centerLngEurope = 18.0;
-      var initialZoomEurope = 4;
-
-      var mapEurope = L.map('mapEurope', {
-        center: [centerLatEurope, centerLngEurope],
-        zoom: initialZoomEurope
-      });
-
-      //set one map tiles source
-      googleStreetsEurope = L.tileLayer('http://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}', {
-        attribution: '<a href="https://www.google.com/maps">Google Maps</a>',
-        maxZoom: 20,
-        subdomains: ['mt0', 'mt1', 'mt2', 'mt3']
-      });
-      googleStreetsEurope.addTo(mapEurope);
-
-      var centerLatAsia = 49.0;
-      var centerLngAsia = 88.0;
-      var initialZoomAsia = 2;
-
-      var mapAsia = L.map('mapAsia', {
-        center: [centerLatAsia, centerLngAsia],
-        zoom: initialZoomAsia
-      });
-
-      //set one map tiles source
-      googleStreetsAsia = L.tileLayer('http://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}', {
-        attribution: '<a href="https://www.google.com/maps">Google Maps</a>',
-        maxZoom: 20,
-        subdomains: ['mt0', 'mt1', 'mt2', 'mt3']
-      });
-      googleStreetsAsia.addTo(mapAsia);
-
-      var mapOptions = {
-        center: [35.98, -83.94],
-        zoom: 4
-      }
-
-      var themap = new L.map('themap', mapOptions)
-
-      // Creating a map object
-      // Creating a Layer object
-      mp = new L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token', {
-        attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
-        maxZoom: 4
-      })
-
-      // Adding layer to the map
-      mp.addTo(themap);
+  </script>
 
 
 
-
-
-
-
-
-      var centerLatAfrica = 0.0;
-      var centerLngAfrica = 18.0;
-      var initialZoomAfrica = 4;
-
-      var mapAfrica = L.map('mapAfrica', {
-        center: [centerLatAfrica, centerLngAfrica],
-        zoom: initialZoomAfrica
-      });
-
-      //set one map tiles source
-      googleStreetsAfrica = L.tileLayer('http://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}', {
-        attribution: '<a href="https://www.google.com/maps">Google Maps</a>',
-        maxZoom: 20,
-        subdomains: ['mt0', 'mt1', 'mt2', 'mt3']
-      });
-      googleStreetsAfrica.addTo(mapAfrica);
-    </script>
-
-
-  </body>
-
-
-
-  <table class="table table-striped">
+<table class="table table-striped">
     <thead>
       <tr>
         <th scope="col">#</th>
